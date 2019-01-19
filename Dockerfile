@@ -11,6 +11,7 @@ RUN dpkg --add-architecture i386 \
     bison \
     build-essential \
     ca-certificates \
+    cpio \
     cscope \
     curl \
     device-tree-compiler \
@@ -39,8 +40,10 @@ RUN dpkg --add-architecture i386 \
     python-serial \
     python-wand \
     repo \
+    rsync \
     unzip \
     uuid-dev \
+    wget \
     xdg-utils \
     xterm \
     xz-utils \
@@ -63,3 +66,7 @@ RUN mkdir patches
 COPY patches /opt/patches/
 RUN cd repo/build && git apply --ignore-space-change --ignore-whitespace \
         /opt/patches/$OPTEE_VERSION/build.diff
+
+RUN cd repo/build \
+    && CFG_TEE_TA_LOG_LEVEL=3 CFG_TA_MBEDTLS_MPI=n CFG_TA_MBEDTLS=n \
+        make -j4
