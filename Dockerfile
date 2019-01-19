@@ -47,12 +47,19 @@ RUN dpkg --add-architecture i386 \
     zlib1g-dev \
     && rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p /opt/optee/repo \
-    && cd /opt/optee/repo \
-    && repo init -u https://github.com/OP-TEE/manifest.git -m qemu_v8.xml -b 3.3.0 \
+WORKDIR /opt/optee
+ENV OPTEE_VERSION 3.3.0
+
+RUN mkdir repo \
+    && cd repo \
+    && repo init -u https://github.com/OP-TEE/manifest.git \
+        -m qemu_v8.xml -b $OPTEE_VERSION \
     && repo sync
 
-RUN cd /opt/optee/repo/build \
+RUN cd repo/build \
     && make toolchains -j2
 
-RUN ln -s /opt/optee/repo/toolchains /opt/cross
+RUN mkdir patches
+COPY patches /opt/patches/
+RUN cd repo/build && git apply --ignore-space-change --ignore-whitespace \
+        /opt/patches/$OPTEE_VERSION/build.diff
