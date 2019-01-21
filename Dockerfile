@@ -70,3 +70,12 @@ RUN cd repo/build && git apply --ignore-space-change --ignore-whitespace \
 RUN cd repo/build \
     && CFG_TEE_TA_LOG_LEVEL=3 CFG_TA_MBEDTLS_MPI=n CFG_TA_MBEDTLS=n \
         make -j4
+
+RUN apt-get update && apt-get install -y python3 python3-pip
+
+RUN mkdir scripts
+COPY scripts /opt/scripts/
+#RUN pip3 install -r scripts/requirements.txt
+
+COPY entrypoint.sh /entrypoint.sh
+CMD ["/entrypoint.sh"]
