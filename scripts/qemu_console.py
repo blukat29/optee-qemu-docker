@@ -4,7 +4,7 @@ import os
 
 import pexpect
 
-os.chdir('/opt/optee/repo/build')
+os.chdir('/opt/repo/build')
 
 p = pexpect.spawn('make run-only', timeout=3600)
 p.logfile = open('/opt/logs/qemu.log', 'wb')

@@ -4,7 +4,7 @@ import os
 
 from subprocess import Popen, PIPE
 
-os.chdir('/opt/optee/scripts')
+os.chdir('/opt/scripts')
 
 q = Popen(['./qemu_console.py'], stdin=PIPE)
 n = Popen(['./normal_world.py'])

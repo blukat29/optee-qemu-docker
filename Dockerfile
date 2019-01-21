@@ -52,7 +52,7 @@ RUN dpkg --add-architecture i386 \
     zlib1g-dev \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /opt/optee
+WORKDIR /opt
 ENV OPTEE_VERSION 3.3.0
 
 RUN mkdir repo \
@@ -65,7 +65,7 @@ RUN cd repo/build \
     && make toolchains -j2
 
 RUN mkdir patches
-COPY patches /opt/patches/
+COPY patches patches/
 RUN cd repo/build && git apply --ignore-space-change --ignore-whitespace \
         /opt/patches/$OPTEE_VERSION/build.diff
 
@@ -77,8 +77,8 @@ RUN mkdir scripts
 COPY scripts scripts/
 RUN pip3 install -r scripts/requirements.txt
 
-RUN mkdir /opt/logs
-RUN mkdir /opt/shared
+RUN mkdir logs
+RUN mkdir shared
 
 COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
