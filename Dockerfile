@@ -81,4 +81,4 @@ RUN mkdir /opt/logs
 RUN mkdir /opt/shared
 
 COPY entrypoint.sh /entrypoint.sh
-CMD ["/entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]

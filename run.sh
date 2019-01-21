@@ -1,4 +1,4 @@
 #!/bin/sh
 
 docker build -t optee-qemu:latest .
-docker run --rm -it optee-qemu $@
+docker run --rm --name optee -it optee-qemu $@
