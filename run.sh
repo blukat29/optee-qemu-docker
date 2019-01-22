@@ -1,4 +1,9 @@
 #!/bin/sh
 
 docker build -t optee-qemu:latest .
-docker run --rm --name optee -it optee-qemu $@
+mkdir -p workdir/logs
+mkdir -p workdir/shared
+docker run --rm --name optee \
+    -v $(pwd)/workdir/logs:/opt/logs \
+    -v $(pwd)/workdir/shared:/opt/shared \
+    -it optee-qemu $@

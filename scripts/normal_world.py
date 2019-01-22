@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 
+import sys
+
 import pexpect
 
 p = pexpect.spawn('/opt/repo/soc_term/soc_term 54320', timeout=3600)
-p.logfile = open('/opt/logs/normal.log', 'wb')
+p.logfile_read = open('/opt/logs/normal.log', 'wb')
 
 p.expect('buildroot login: ')
 p.sendline('root')
@@ -23,4 +25,7 @@ def exit_code():
     ret = command('echo $?')
     return int(ret.split('\r')[1])
 
-command('hello_world')
+command('mount -t 9p -o trans=virtio host /mnt')
+command('cd /mnt')
+command('ls -al')
+command('sh run.sh')
