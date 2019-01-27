@@ -28,4 +28,4 @@ def exit_code():
 command('mount -t 9p -o trans=virtio host /mnt')
 command('cd /mnt')
 command('ls -al')
-command('sh run.sh')
+command(' '.join(sys.argv[1:]))

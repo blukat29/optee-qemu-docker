@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 
 import os
+import sys
 
 from subprocess import Popen, PIPE
 
 os.chdir('/opt/scripts')
 
 q = Popen(['./qemu_console.py'], stdin=PIPE)
-n = Popen(['./normal_world.py'])
+n = Popen(['./normal_world.py'] + sys.argv[1:])
 s = Popen(['./secure_world.py'])
 
 def trace(path, color):

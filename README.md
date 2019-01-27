@@ -58,8 +58,7 @@ the built-in example `hello_world` TA.
 ```
 $ cd /path/to/shared
 $ echo 'hello_world' > run.sh
-$ chmod +x run.sh
-$ docker run -v /path/to/shared:/opt/shared -it blukat29/optee-qemu:3.3.0 batch
+$ docker run -v /path/to/shared:/opt/shared -it blukat29/optee-qemu:3.3.0 batch sh run.sh
 
     (...)
 
