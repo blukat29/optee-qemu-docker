@@ -55,23 +55,20 @@ RUN dpkg --add-architecture i386 \
 WORKDIR /opt
 ENV OPTEE_VERSION 3.3.0
 
+COPY patches/$OPTEE_VERSION patches/
+COPY cleanup.sh /cleanup.sh
+
 RUN mkdir repo \
     && cd repo \
     && repo init -u https://github.com/OP-TEE/manifest.git \
         -m qemu_v8.xml -b $OPTEE_VERSION \
-    && repo sync
+    && repo sync -j8 \
+    && cd build \
+    && make toolchains -j2 \
+    && git apply --ignore-space-change --ignore-whitespace /opt/patches/build.diff \
+    && CFG_TEE_TA_LOG_LEVEL=3 CFG_TA_MBEDTLS_MPI=n CFG_TA_MBEDTLS=n make -j8 \
+    && /cleanup.sh
 
-RUN cd repo/build \
-    && make toolchains -j2
-
-RUN mkdir patches
-COPY patches patches/
-RUN cd repo/build && git apply --ignore-space-change --ignore-whitespace \
-        /opt/patches/$OPTEE_VERSION/build.diff
-
-RUN cd repo/build \
-    && CFG_TEE_TA_LOG_LEVEL=3 CFG_TA_MBEDTLS_MPI=n CFG_TA_MBEDTLS=n \
-        make -j4
 
 RUN mkdir scripts
 COPY scripts scripts/
