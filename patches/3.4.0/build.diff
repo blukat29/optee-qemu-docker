@@ -1,0 +1,33 @@
+diff --git a/common.mk b/common.mk
+index 48c31d4..927115d 100644
+--- a/common.mk
++++ b/common.mk
+@@ -34,8 +34,8 @@ CCACHE ?= $(shell which ccache) # Don't remove this comment (space is needed)
+ # # Set QEMU_VIRTFS_ENABLE to 'y' and adjust QEMU_VIRTFS_HOST_DIR
+ # # Then in QEMU, run:
+ # # $ mount -t 9p -o trans=virtio host <mount_point>
+-QEMU_VIRTFS_ENABLE		?= n
+-QEMU_VIRTFS_HOST_DIR	?= $(ROOT)
++QEMU_VIRTFS_ENABLE		?= y
++QEMU_VIRTFS_HOST_DIR	?= /opt/shared
+ 
+ ################################################################################
+ # Mandatory for autotools (for specifying --host)
+diff --git a/qemu_v8.mk b/qemu_v8.mk
+index 8271590..b05e175 100644
+--- a/qemu_v8.mk
++++ b/qemu_v8.mk
+@@ -161,10 +161,10 @@ QEMU_SMP ?= 2
+ .PHONY: run-only
+ run-only:
+ 	ln -sf $(ROOT)/out-br/images/rootfs.cpio.gz $(BINARIES_PATH)/
+-	$(call check-terminal)
++#	$(call check-terminal)
+ 	$(call run-help)
+-	$(call launch-terminal,54320,"Normal World")
+-	$(call launch-terminal,54321,"Secure World")
++#	$(call launch-terminal,54320,"Normal World")
++#	$(call launch-terminal,54321,"Secure World")
+ 	$(call wait-for-ports,54320,54321)
+ 	cd $(BINARIES_PATH) && $(QEMU_PATH)/aarch64-softmmu/qemu-system-aarch64 \
+ 		-nographic \

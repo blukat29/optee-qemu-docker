@@ -53,7 +53,7 @@ RUN dpkg --add-architecture i386 \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /opt
-ENV OPTEE_VERSION 3.3.0
+ENV OPTEE_VERSION 3.4.0
 
 COPY patches/$OPTEE_VERSION patches/
 COPY cleanup.sh /cleanup.sh
